@@ -2,20 +2,22 @@ var game = {
 
   board: [[],[],[]],
 
+  playerTurn: 0,
   player1: '',
   player2: '',
 
-  checkCell: function(row, col) {
+  setCell: function(row, col) {
     var rowNumber = row.slice(3);
     var colNumber = col.slice(3);
-    return this.board[rowNumber][colNumber];
-  },
-
-  setCell: function(row, col, symbol) {
-    var rowNumber = row.slice(3);
-    var colNumber = col.slice(3);
-    if (this.board[rowNumber] && this.board[rowNumber][colNumber]) {
-      this.board[rowNumber][colNumber] = symbol;
+    var cell = this.board[rowNumber][colNumber];
+    if (!cell) {
+      if (this.playerTurn === 1) {
+        this.board[rowNumber][colNumber] = this.player1;
+        return this.player1;
+      } else {
+        this.board[rowNumber][colNumber] = this.player2;
+        return this.player2;
+      }
     }
   },
 
@@ -25,6 +27,10 @@ var game = {
     } else {
       this.player2 = symbol;
     }
+  },
+
+  setTurn: function() {
+    this.playerTurn = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
   }
 
 }

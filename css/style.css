@@ -17,7 +17,7 @@ body {
 
 div {
   display: block;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
 }
 
 .container {
@@ -106,12 +106,17 @@ PLAYERS INFO PANEL
 }
 
 .playersInfo .icon {
-  margin: 10px;
+  margin: 20px 10px;
 }
 
 .playersInfo .icon i {
   font-size: 5em;
   padding: 20px;
+}
+
+.playersInfo .icon.turn {
+  background-color: rgb(150, 150, 150);
+  color: rgb(255, 255, 255);
 }
 
 .player1 {
@@ -142,19 +147,23 @@ GAME BOARD
   vertical-align: top;
   width: 100px;
   height: 100px;
-
 }
 
 #row0, #row1 {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid rgb(150, 150, 150);
 }
 
 .col0, .col1 {
-  border-right: 2px solid black;
+  border-right: 2px solid rgb(150, 150, 150);
 }
 
 .row div:hover {
   cursor: pointer;
   cursor: hand;
   background-color: rgb(245, 245, 255);
+}
+
+.board .row i {
+  font-size: 50px;
+  line-height: 100px;
 }
