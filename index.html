@@ -18,7 +18,7 @@
     <div class="init-wrapper">
       <h1>Player <span id="playerNo">1</span> select a symbol</h1>
       <ul class="symbols">
-        <li><i id="fa fa-futbol-o" aria-hidden="true"></i></li>
+        <li><i class="fa fa-futbol-o" aria-hidden="true"></i></li>
         <li><i class="fa fa-rocket" aria-hidden="true"></i></li>
         <li><i class="fa fa-circle" aria-hidden="true"></i></li>
         <li><i class="fa fa-times" aria-hidden="true"></i></li>
@@ -29,23 +29,12 @@
         <li><i class="fa fa-star" aria-hidden="true"></i></li>
       </ul>
 
-      <button type="button" name="button" id="initNext">Next</button>
+      <button type="button" name="button" disabled="true" id="initNext">Next</button>
     </div>
   </div>
 
   <div class="container">
     <div class="main-wrapper">
-
-      <div class="playersInfo">
-        <div class="player1">
-          <h2>Player 1</h2>
-          <div class="icon"><i></i></div>
-        </div>
-        <div class="player2">
-          <h2>Player 2</h2>
-          <div class="icon"><i></i></div>
-        </div>
-      </div>
 
       <div class="board">
 
@@ -59,6 +48,17 @@
           <div class="col0"></div><div class="col1"></div><div class="col2"></div>
         </div>
       </div> <!-- board -->
+
+      <div class="playersInfo">
+        <div class="player1">
+          <h2>Player 1</h2>
+          <div class="icon"><i></i></div>
+        </div>
+        <div class="player2">
+          <h2>Player 2</h2>
+          <div class="icon"><i></i></div>
+        </div>
+      </div> <!-- playersInfo -->
 
     </div> <!-- main-wrapper -->
   </div> <!-- container -->

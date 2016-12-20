@@ -35,6 +35,10 @@ h1 {
   line-height: 3em;
 }
 
+h2 {
+  font-size: 1.5em;
+}
+
 /**********************
 INIT PANEL
 **********************/
@@ -84,7 +88,11 @@ INIT PANEL
   outline: none;
 }
 
-.init button:hover {
+.init button:disabled {
+  opacity: .3;
+}
+
+.init button:enabled:hover {
   cursor: pointer;
   cursor: hand;
   background-color: rgb(150, 150, 150);
@@ -92,13 +100,51 @@ INIT PANEL
 }
 
 /**********************
+GAME BOARD
+**********************/
+
+.board {
+  width: 390px;
+  margin: 0 auto;
+}
+
+.row {
+  display: block;
+  height: 132px;
+}
+
+.row div {
+  display: inline-block;
+  vertical-align: top;
+  width: 130px;
+  height: 130px;
+}
+
+#row0, #row1 {
+  border-bottom: 2px solid rgb(150, 150, 150);
+}
+
+.col0, .col1 {
+  border-right: 2px solid rgb(150, 150, 150);
+}
+
+.row div:hover {
+  cursor: pointer;
+  cursor: hand;
+  background-color: rgb(245, 245, 255);
+}
+
+.board .row i {
+  font-size: 50px;
+  line-height: 100px;
+}
+
+/**********************
 PLAYERS INFO PANEL
 **********************/
 
 .playersInfo {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 100px;
+  margin-top: 50px;
 }
 
 .playersInfo>div {
@@ -125,45 +171,4 @@ PLAYERS INFO PANEL
 
 .player2 {
   display: inline-block;
-}
-
-/**********************
-GAME BOARD
-**********************/
-
-.board {
-  width: 300px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.row {
-  display: block;
-  height: 102px;
-}
-
-.row div {
-  display: inline-block;
-  vertical-align: top;
-  width: 100px;
-  height: 100px;
-}
-
-#row0, #row1 {
-  border-bottom: 2px solid rgb(150, 150, 150);
-}
-
-.col0, .col1 {
-  border-right: 2px solid rgb(150, 150, 150);
-}
-
-.row div:hover {
-  cursor: pointer;
-  cursor: hand;
-  background-color: rgb(245, 245, 255);
-}
-
-.board .row i {
-  font-size: 50px;
-  line-height: 100px;
 }
