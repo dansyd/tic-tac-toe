@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200');
+
+/**********************
+GENERAL STYLE
+**********************/
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em;
+  line-height: 1em;
+  color: rgb(150, 150, 150);
+}
+
+div {
+  display: block;
+  border: 1px solid red;
+}
+
+.container {
+  width: 960px;
+  margin: 30px auto;
+}
+
+.main-wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3em;
+  line-height: 3em;
+}
+
+/**********************
+INIT PANEL
+**********************/
+
+.init-wrapper {
+  margin: 0 auto;
+  width: 500px;
+}
+
+.init {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  text-align: center;
+}
+
+.init ul li {
+  display: inline-block;
+  padding: 10px;
+}
+
+.init ul li {
+  font-size: 2em;
+}
+
+.init ul li:hover {
+  cursor: pointer;
+  cursor: hand;
+  background-color: rgb(150, 150, 150);
+  color: rgb(255, 255, 255);
+}
+
+.init ul li.selected {
+  background-color: rgb(150, 150, 150);
+  color: rgb(255, 255, 255);
+}
+
+.init button {
+  margin-top: 40px;
+  font-size: 1em;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 10px;
+  padding: 10px 30px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(150, 150, 150);
+  outline: none;
+}
+
+.init button:hover {
+  cursor: pointer;
+  cursor: hand;
+  background-color: rgb(150, 150, 150);
+  color: rgb(255, 255, 255);
+}
+
+/**********************
+PLAYERS INFO PANEL
+**********************/
+
+.playersInfo {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 100px;
+}
+
+.playersInfo>div {
+  padding: 20px 50px;
+}
+
+.playersInfo .icon {
+  margin: 10px;
+}
+
+.playersInfo .icon i {
+  font-size: 5em;
+  padding: 20px;
+}
+
+.player1 {
+  display: inline-block;
+}
+
+.player2 {
+  display: inline-block;
+}
+
+/**********************
+GAME BOARD
+**********************/
+
+.board {
+  width: 300px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.row {
+  display: block;
+  height: 102px;
+}
+
+.row div {
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  height: 100px;
+
+}
+
+#row0, #row1 {
+  border-bottom: 2px solid black;
+}
+
+.col0, .col1 {
+  border-right: 2px solid black;
+}
+
+.row div:hover {
+  cursor: pointer;
+  cursor: hand;
+  background-color: rgb(245, 245, 255);
+}
