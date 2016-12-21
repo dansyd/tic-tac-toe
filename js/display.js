@@ -3,6 +3,72 @@ var turnInterval;
 
 $(document).ready( function() {
 
+  // $('.init').hide();
+
+  // UI - Current Players turn
+  var updateCurrentPlayersTurnUI = function() {
+    if (game.playerTurn === 1) {
+      $('.player2 .icon').removeClass('turn');
+      $('.player1 .icon').toggleClass('turn');
+    } else {
+      $('.player1 .icon').removeClass('turn');
+      $('.player2 .icon').toggleClass('turn');
+    }
+  }
+
+  // UI - Game end
+  var updateGameEndUI = function() {
+    if (game.win) {
+      switch (game.winner.method) {
+        case "row":
+          $('#' + game.winner.cell + " div").addClass('winner');
+          break;
+        case "col":
+          $('.board .' + game.winner.cell).addClass('winner');
+          break;
+        case "diagonal":
+          if (game.winner.cell === "TL") {
+            $('#row0 .col0').addClass('winner');
+            $('#row1 .col1').addClass('winner');
+            $('#row2 .col2').addClass('winner');
+          } else {
+            $('#row2 .col0').addClass('winner');
+            $('#row1 .col1').addClass('winner');
+            $('#row0 .col2').addClass('winner');
+          }
+          break;
+        default:
+          break;
+      }
+      if (game.playerTurn === 1) {
+        var player1Score = parseInt($('#player1Score').text());
+        player1Score++;
+        $('#player1Score').fadeOut(function() {
+          $('#player1Score').text(player1Score).fadeIn(500);
+        });
+      } else {
+        var player2Score = parseInt($('#player2Score').text());
+        player2Score++;
+        $('#player2Score').fadeOut(function() {
+          $('#player2Score').text(player2Score).fadeIn(500);
+        });
+      }
+    }
+    $('.playersInfo .icon').removeClass('turn');
+
+  }
+
+  // UI - Game reset
+  var gameResetUI = function() {
+    $('.board .row i').fadeOut(500, function(){
+      $(this).remove();
+    });
+    $('.board .row div').removeClass('winner');
+    game.reset();
+    turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
+  }
+
+
   // INIT - Change symbol selection
   $('.symbols li').on('click', function() {
     $('.symbols li').removeClass('selected');
@@ -10,7 +76,7 @@ $(document).ready( function() {
     $('#initNext').prop('disabled', false);
   });
 
-  // INIT - Choose player's symbol on click of 'Next' button
+  // INIT - Set player's symbol on click of 'Next' button
   $('#initNext').on('click', function() {
 
     var $playerNo = $('#playerNo');
@@ -24,34 +90,22 @@ $(document).ready( function() {
         $('.player1 .icon i').addClass(game.player1);
         currentPlayer++;
         $playerNo.fadeOut(function() {
-          $playerNo.text(currentPlayer).fadeIn(200);
+          $playerNo.text("Player " + currentPlayer).fadeIn(200);
         });
         $selectedSymbol.fadeOut(500);
         $('#initNext').prop('disabled', true);
-
 
     } else if (currentPlayer === 2) {
 
       $('.player2 .icon i').addClass(game.player2);
       // decide turn and activate flashing on player's symbol
       game.setFirstTurn();
-      turnInterval = setInterval(updateCurrentPlayerUI, 500);
+      turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
       $('.init').fadeOut(1000);
 
     }
 
   });
-
-  // GAME - Next turn
-  var updateCurrentPlayerUI = function() {
-    if (game.playerTurn === 1) {
-      $('.player2 .icon').removeClass('turn');
-      $('.player1 .icon').toggleClass('turn');
-    } else {
-      $('.player1 .icon').removeClass('turn');
-      $('.player2 .icon').toggleClass('turn');
-    }
-  }
 
   // GAME - Click on a cell on the board
   $('.board .row div').on('click', function () {
@@ -67,14 +121,19 @@ $(document).ready( function() {
     var cellClass = game.setCell(row, col);
     $(this).html('<i class="' + cellClass +'">');
 
-    if (game.winner) {
+    if (game.win || game.draw) {
+
       clearInterval(turnInterval);
+      updateGameEndUI();
+      setTimeout(function(){
+        gameResetUI();
+        game.setFirstTurn();
+      }, 2000);
+
     } else {
       game.nextTurn();
-      updateCurrentPlayerUI();
+      updateCurrentPlayersTurnUI();
     }
-
-
 
   });
 

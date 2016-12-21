@@ -104,20 +104,20 @@ GAME BOARD
 **********************/
 
 .board {
-  width: 390px;
+  width: 330px;
   margin: 0 auto;
 }
 
 .row {
   display: block;
-  height: 132px;
+  height: 112px;
 }
 
 .row div {
   display: inline-block;
   vertical-align: top;
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
 }
 
 #row0, #row1 {
@@ -139,12 +139,16 @@ GAME BOARD
   line-height: 100px;
 }
 
+.board .row div.winner i {
+  color: rgb(0, 208, 195);
+}
+
 /**********************
 PLAYERS INFO PANEL
 **********************/
 
 .playersInfo {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .playersInfo>div {
@@ -152,7 +156,7 @@ PLAYERS INFO PANEL
 }
 
 .playersInfo .icon {
-  margin: 20px 10px;
+  margin: 10px 10px;
 }
 
 .playersInfo .icon i {
@@ -171,4 +175,16 @@ PLAYERS INFO PANEL
 
 .player2 {
   display: inline-block;
+}
+
+.score h2{
+  display: inline;
+  vertical-align: top;
+  margin-bottom: 20px;
+}
+
+.score span {
+  color: rgb(0, 208, 195);
+  font-size: 5em;
+  padding: 0 78px;
 }
