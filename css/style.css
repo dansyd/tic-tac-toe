@@ -56,6 +56,10 @@ INIT PANEL
   text-align: center;
 }
 
+.init .symbols {
+  margin-top: 20px; 
+}
+
 .init ul li {
   display: inline-block;
   padding: 10px;
