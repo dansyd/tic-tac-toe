@@ -11,7 +11,7 @@ GENERAL STYLE
 body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 1em;
-  line-height: 1em;
+  line-height: .5em;
   color: rgb(150, 150, 150);
 }
 
@@ -21,7 +21,7 @@ div {
 }
 
 .container {
-  width: 960px;
+  width: 533px;
   margin: 30px auto;
 }
 
@@ -32,7 +32,7 @@ div {
 
 h1 {
   font-size: 3em;
-  line-height: 3em;
+  line-height: 1.5em;
 }
 
 h2 {
@@ -59,9 +59,6 @@ INIT PANEL
 .init ul li {
   display: inline-block;
   padding: 10px;
-}
-
-.init ul li {
   font-size: 2em;
 }
 
@@ -186,5 +183,5 @@ PLAYERS INFO PANEL
 .score span {
   color: rgb(0, 208, 195);
   font-size: 5em;
-  padding: 0 78px;
+  padding: 0 72px;
 }

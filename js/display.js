@@ -66,7 +66,6 @@ $(document).ready( function() {
     turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
   }
 
-
   // INIT - Change symbol selection
   $('.symbols li').on('click', function() {
     $('.symbols li').removeClass('selected');
