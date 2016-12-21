@@ -3,8 +3,6 @@ var turnInterval;
 
 $(document).ready( function() {
 
-  // $('.init').hide();
-
   // UI - Current Players turn
   var updateCurrentPlayersTurnUI = function() {
     if (game.playerTurn === 1) {
@@ -44,13 +42,13 @@ $(document).ready( function() {
         var player1Score = parseInt($('#player1Score').text());
         player1Score++;
         $('#player1Score').fadeOut(function() {
-          $('#player1Score').text(player1Score).fadeIn(500);
+          $('#player1Score').text(player1Score).fadeIn(2000);
         });
       } else {
         var player2Score = parseInt($('#player2Score').text());
         player2Score++;
         $('#player2Score').fadeOut(function() {
-          $('#player2Score').text(player2Score).fadeIn(500);
+          $('#player2Score').text(player2Score).fadeIn(2000);
         });
       }
     }
@@ -62,8 +60,8 @@ $(document).ready( function() {
   var gameResetUI = function() {
     $('.board .row i').fadeOut(500, function(){
       $(this).remove();
+      $('.board .row div').removeClass('winner');
     });
-    $('.board .row div').removeClass('winner');
     game.reset();
     turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
   }
