@@ -3,8 +3,11 @@ var turnInterval;
 
 $(document).ready( function() {
 
+  /************
+  UI
+  ************/
   // UI - Current Players turn
-  var updateCurrentPlayersTurnUI = function() {
+  var UIpdateCurrentPlayersTurn = function() {
     if (game.playerTurn === 1) {
       $('.player2 .icon').removeClass('turn');
       $('.player1 .icon').toggleClass('turn');
@@ -14,8 +17,8 @@ $(document).ready( function() {
     }
   }
 
-  // UI - Game end
-  var updateGameEndUI = function() {
+  // UI - Game end, highlight the row/column/diagonal and update the score
+  var UIupdateGameEnd = function() {
     if (game.win) {
       switch (game.winner.method) {
         case "row":
@@ -52,20 +55,21 @@ $(document).ready( function() {
         });
       }
     }
+    // Stop flashing on current player's turn while displaying 
     $('.playersInfo .icon').removeClass('turn');
-
   }
 
   // UI - Game reset
-  var gameResetUI = function() {
+  var UIgameReset = function() {
     $('.board .row i').fadeOut(500, function(){
       $(this).remove();
       $('.board .row div').removeClass('winner');
     });
-    game.reset();
-    turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
   }
 
+  /************
+  INIT
+  ************/
   // INIT - Change symbol selection
   $('.symbols li').on('click', function() {
     $('.symbols li').removeClass('selected');
@@ -78,7 +82,7 @@ $(document).ready( function() {
 
     var $playerNo = $('#playerNo');
     var $selectedSymbol = $('.symbols li.selected');
-    // Set player's symbol in data
+    // Set player's symbol class in data
     game.setPlayerSymbol(currentPlayer, $('.symbols li.selected i').attr('class'));
 
     // set player's symbol in Info panel UI
@@ -95,15 +99,19 @@ $(document).ready( function() {
     } else if (currentPlayer === 2) {
 
       $('.player2 .icon i').addClass(game.player2);
+
       // decide turn and activate flashing on player's symbol
       game.setFirstTurn();
-      turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
+      turnInterval = setInterval(UIpdateCurrentPlayersTurn, 500);
       $('.init').fadeOut(1000);
 
     }
 
   });
 
+  /************
+  GAME
+  ************/
   // GAME - Click on a cell on the board
   $('.board .row div').on('click', function () {
     var cellContent = $(this).children().length;
@@ -121,9 +129,13 @@ $(document).ready( function() {
       //disable click on the board while loading new game
       $(".board").css("pointer-events", "none");
       clearInterval(turnInterval);
-      updateGameEndUI();
+      UIupdateGameEnd();
+      // Reset everything after 2 seconds, so the user can have a feedback on how the game was won/drawn
       setTimeout(function(){
-        gameResetUI();
+        UIgameReset();
+        game.reset();
+        turnInterval = setInterval(UIpdateCurrentPlayersTurn, 500);
+        //re-calculate random first turn
         game.setFirstTurn();
         //re-enable click on board once reloaded
         $(".board").css("pointer-events", "auto");
@@ -131,7 +143,7 @@ $(document).ready( function() {
 
     } else {
       game.nextTurn();
-      updateCurrentPlayersTurnUI();
+      UIpdateCurrentPlayersTurn();
     }
 
   });

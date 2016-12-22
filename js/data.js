@@ -14,17 +14,14 @@ var game = {
   setCell: function(row, col) {
     var rowNumber = row.slice(3);
     var colNumber = col.slice(3);
-    var cell = this.board[rowNumber][colNumber];
-    if (!cell) {
-      if (this.playerTurn === 1) {
-        this.board[rowNumber][colNumber] = this.player1;
-        this.gameStatus(rowNumber, colNumber, this.player1);
-        return this.player1;
-      } else {
-        this.board[rowNumber][colNumber] = this.player2;
-        this.gameStatus(rowNumber, colNumber, this.player2);
-        return this.player2;
-      }
+    if (this.playerTurn === 1) {
+      this.board[rowNumber][colNumber] = this.player1;
+      this.gameStatus(rowNumber, colNumber, this.player1);
+      return this.player1;
+    } else {
+      this.board[rowNumber][colNumber] = this.player2;
+      this.gameStatus(rowNumber, colNumber, this.player2);
+      return this.player2;
     }
   },
 
