@@ -12,7 +12,6 @@ I've used HTML and CSS to layout and style the game, Javascript to run the progr
 
 This is a brief diagram of a game turn logic:
 
-```flow
 st=>start: Start
 e=>end
 click=>operation: Click
@@ -31,4 +30,3 @@ windraw3=>condition: Win or Draw?
 st->click->empty
 empty(yes)->symbol->row->windraw(no)->column->windraw2(no)->diagonal->windraw3(no)->click
 empty(no)->nothing(right)->click
-```
