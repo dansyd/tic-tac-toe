@@ -106,7 +106,6 @@ $(document).ready( function() {
 
   // GAME - Click on a cell on the board
   $('.board .row div').on('click', function () {
-
     var cellContent = $(this).children().length;
     if (cellContent !== 0) {
       // cell is already occupied
@@ -119,12 +118,15 @@ $(document).ready( function() {
     $(this).html('<i class="' + cellClass +'">');
 
     if (game.win || game.draw) {
-
+      //disable click on the board while loading new game
+      $(".board").css("pointer-events", "none");
       clearInterval(turnInterval);
       updateGameEndUI();
       setTimeout(function(){
         gameResetUI();
         game.setFirstTurn();
+        //re-enable click on board once reloaded
+        $(".board").css("pointer-events", "auto");
       }, 2000);
 
     } else {
