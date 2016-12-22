@@ -3,8 +3,13 @@ var turnInterval;
 
 $(document).ready( function() {
 
+
+  /****************
+  USER INTERFACE
+  ****************/
+
   // UI - Current Players turn
-  var updateCurrentPlayersTurnUI = function() {
+  var UIupdateCurrentPlayersTurn = function() {
     if (game.playerTurn === 1) {
       $('.player2 .icon').removeClass('turn');
       $('.player1 .icon').toggleClass('turn');
@@ -15,7 +20,7 @@ $(document).ready( function() {
   }
 
   // UI - Game end
-  var updateGameEndUI = function() {
+  var UIupdateGameEnd = function() {
     if (game.win) {
       switch (game.winner.method) {
         case "row":
@@ -57,23 +62,33 @@ $(document).ready( function() {
   }
 
   // UI - Game reset
-  var gameResetUI = function() {
+  var UIgameReset = function() {
     $('.board .row i').fadeOut(500, function(){
       $(this).remove();
       $('.board .row div').removeClass('winner');
     });
     game.reset();
-    turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
+    turnInterval = setInterval(UIupdateCurrentPlayersTurn, 500);
   }
 
-  // INIT - Change symbol selection
+  var AIMoves = function() {
+    var AIMove = game.calculateAIMove();
+    $('#row' + AIMove[0] + ' .col' + AIMove[1]).html('<i class="' + game.player2 +'">');
+    game.nextTurn();
+  }
+
+  /**************
+  INIT
+  **************/
+
+  // INIT - Symbol click
   $('.symbols li').on('click', function() {
     $('.symbols li').removeClass('selected');
     $(this).addClass('selected');
     $('#initNext').prop('disabled', false);
   });
 
-  // INIT - Set player's symbol on click of 'Next' button
+  // INIT - Next button click
   $('#initNext').on('click', function() {
 
     var $playerNo = $('#playerNo');
@@ -82,7 +97,7 @@ $(document).ready( function() {
     game.setPlayerSymbol(currentPlayer, $('.symbols li.selected i').attr('class'));
 
     // set player's symbol in Info panel UI
-    if( currentPlayer === 1) {
+    if (currentPlayer === 1) {
 
         $('.player1 .icon i').addClass(game.player1);
         currentPlayer++;
@@ -91,25 +106,41 @@ $(document).ready( function() {
         });
         $selectedSymbol.fadeOut(500);
         $('#initNext').prop('disabled', true);
+        $('.init .opponent').fadeIn(1000, function() {
+          $(this).show;
+        });
 
     } else if (currentPlayer === 2) {
 
       $('.player2 .icon i').addClass(game.player2);
-      // decide turn and activate flashing on player's symbol
+
+      if ($('.opponent input[value="machine"]').is(':checked')) {
+        game.activateAI();
+      }
+
       game.setFirstTurn();
-      turnInterval = setInterval(updateCurrentPlayersTurnUI, 500);
+
+      // Play AI move if AI has first move
+      if(game.playerTurn === 2 && game.AIActive){
+        AIMoves();
+      }
+
+      turnInterval = setInterval(UIupdateCurrentPlayersTurn, 500);
       $('.init').fadeOut(1000);
 
     }
 
   });
 
-  // GAME - Click on a cell on the board
+  /**********************************
+  GAME - Click on a cell on the board
+  **********************************/
+
   $('.board .row div').on('click', function () {
 
     var cellContent = $(this).children().length;
+    // cell is already occupied
     if (cellContent !== 0) {
-      // cell is already occupied
       return;
     }
 
@@ -121,18 +152,26 @@ $(document).ready( function() {
     if (game.win || game.draw) {
 
       clearInterval(turnInterval);
-      updateGameEndUI();
+
+      UIupdateGameEnd();
+
       setTimeout(function(){
-        gameResetUI();
+        UIgameReset();
         game.setFirstTurn();
       }, 2000);
 
     } else {
+
       game.nextTurn();
-      updateCurrentPlayersTurnUI();
+
+      // Play AI move if it's the AI's turn (which it always will be after a human turn, in AI mode)
+      if(game.playerTurn === 2 && game.AIActive){
+        AIMoves();
+      }
+
+      UIupdateCurrentPlayersTurn();
     }
 
   });
-
 
 });

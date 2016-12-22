@@ -17,7 +17,6 @@ body {
 
 div {
   display: block;
-  /*border: 1px solid red;*/
 }
 
 .container {
@@ -56,8 +55,28 @@ INIT PANEL
   text-align: center;
 }
 
+.init {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  text-align: center;
+}
+
+.init h1 {
+  margin-bottom: 20px;
+}
+
+.init label:first-of-type {
+  padding-right: 20px;
+}
+
+.init .opponent {
+  display: none;
+}
+
 .init .symbols {
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .init ul li {

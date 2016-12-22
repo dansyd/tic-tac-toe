@@ -1,15 +1,39 @@
 var game = {
 
-  board: [[],[],[]],
+  board: [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+  ],
 
   playerTurn: 0,
   turnCounter: 0,
   player1: '',
   player2: '',
+  AIActive: false,
+  AIAttacking: false,
+  AIDefending: false,
 
   win: false,
   draw: false,
   winner: {method: "", cell: ""},
+
+  setPlayerSymbol: function(player, symbol) {
+    if (player === 1) {
+      this.player1 = symbol;
+    } else {
+      this.player2 = symbol;
+
+    }
+  },
+
+  setFirstTurn: function() {
+    this.playerTurn = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+  },
+
+  activateAI: function() {
+    this.AIActive = true;
+  },
 
   setCell: function(row, col) {
     var rowNumber = row.slice(3);
@@ -28,20 +52,9 @@ var game = {
     }
   },
 
-  setPlayerSymbol: function(player, symbol) {
-    if (player === 1) {
-      this.player1 = symbol;
-    } else {
-      this.player2 = symbol;
-    }
-  },
-
-  setFirstTurn: function() {
-    this.playerTurn = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
-  },
-
   nextTurn: function() {
     if (this.playerTurn === 1) {
+      // human player
       this.playerTurn++;
     } else {
       this.playerTurn--;
@@ -76,8 +89,64 @@ var game = {
     }
   },
 
+
+  setAICell: function(rowNumber, colNumber) {
+    this.board[rowNumber][colNumber] = this.player2;
+    this.gameStatus(rowNumber, colNumber, this.player2);
+    return [rowNumber, colNumber];
+  },
+
+  calculateAIMove: function() {
+    // var rowNumber = 0;
+    // var colNumber = 0;
+    var corners = [[0, 0], [0, 2], [2, 0], [2, 2]];
+    var sides = [[1, 0], [2, 1], [1, 2], [0, 1]];
+
+    if (this.turnCounter === 0) {
+      // First move -> Attacking
+      this.AIAttacking = true;
+
+      //take a corner
+      return this.setAICell(0, 0);
+
+    }
+
+    if (this.turnCounter === 1) {
+      // Second move -> Defending
+      this.AIDefending = true;
+
+      // Take the middle if free. If not, take a corner
+      if (this.board[1][1] === ''){
+        return this.setAICell(1, 1);
+      } else {
+        //take a corner
+        return this.setAICell(0, 0);
+      }
+    }
+
+    // If Attacking and 3rd turn, check if player1 took middle
+    if (this.AIAttacking && this.turnCounter === 2) {
+      // if not, take row +2 or col +2, whichever free
+      if (this.board[1][1] === '') {
+        if (this.board[0][2] === '') {
+          return this.setAICell(0, 2);
+        } else if (this.board[2][0] === '') {
+          return this.setAICell(2, 0);
+        }
+      // if middle is taken, take the opposite diagonal (2,2)
+      } else {
+        return this.setAICell(2, 2);
+      }
+    }
+
+  },
+
   reset: function() {
-    this.board = [[],[],[]];
+    this.board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ];
     this.turnCounter = 0;
     this.win = false;
     this.draw = false;
