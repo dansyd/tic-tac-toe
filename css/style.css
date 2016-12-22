@@ -22,12 +22,14 @@ div {
 
 .container {
   width: 533px;
-  margin: 30px auto;
+  margin: 0 auto;
+  display: none;
 }
 
 .main-wrapper {
   margin: 0 auto;
   text-align: center;
+  padding-top: 30px;
 }
 
 h1 {
@@ -46,11 +48,12 @@ INIT PANEL
 .init-wrapper {
   margin: 0 auto;
   width: 525px;
+  padding-top: 30px;
 }
 
 .init {
   position: absolute;
-  width: 100%;
+  min-width: 100%;
   height: 100%;
   background-color: white;
   text-align: center;
@@ -105,20 +108,20 @@ GAME BOARD
 **********************/
 
 .board {
-  width: 330px;
+  width: 300px;
   margin: 0 auto;
 }
 
 .row {
   display: block;
-  height: 112px;
+  height: 102px;
 }
 
 .row div {
   display: inline-block;
   vertical-align: top;
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
 }
 
 #row0, #row1 {
@@ -188,4 +191,29 @@ PLAYERS INFO PANEL
   color: rgb(0, 208, 195);
   font-size: 5em;
   padding: 0 72px;
+}
+
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+
+  .init-wrapper {
+    width: 320px;
+  }
+
+  .container {
+    width: 320px;
+  }
+
+  .playersInfo>div {
+    padding: 10px 0;
+  }
+
+  .score span {
+    padding: 0 20px;
+  }
+
 }

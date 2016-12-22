@@ -55,7 +55,7 @@ $(document).ready( function() {
         });
       }
     }
-    // Stop flashing on current player's turn while displaying 
+    // Stop flashing on current player's turn while displaying
     $('.playersInfo .icon').removeClass('turn');
   }
 
@@ -104,7 +104,7 @@ $(document).ready( function() {
       game.setFirstTurn();
       turnInterval = setInterval(UIpdateCurrentPlayersTurn, 500);
       $('.init').fadeOut(1000);
-
+      $('.container').fadeIn(1000);
     }
 
   });
