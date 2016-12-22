@@ -3,6 +3,32 @@ var turnInterval;
 
 $(document).ready( function() {
 
+  // Check for Win or Draw
+  var checkForWinDraw = function() {
+
+    if (game.win || game.draw) {
+
+      clearInterval(turnInterval);
+
+      UIupdateGameEnd();
+
+      setTimeout(function(){
+        UIgameReset();
+        game.setFirstTurn();
+      }, 2000);
+
+    } else {
+
+        game.nextTurn();
+
+        // Play AI move if it's the AI's turn (which it always will be after a human turn, in AI mode)
+        if(game.playerTurn === 2 && game.AIActive) {
+          AIMoves();
+        }
+
+        UIupdateCurrentPlayersTurn();
+    }
+  }
 
   /****************
   USER INTERFACE
@@ -74,7 +100,7 @@ $(document).ready( function() {
   var AIMoves = function() {
     var AIMove = game.calculateAIMove();
     $('#row' + AIMove[0] + ' .col' + AIMove[1]).html('<i class="' + game.player2 +'">');
-    game.nextTurn();
+    checkForWinDraw();
   }
 
   /**************
@@ -88,11 +114,22 @@ $(document).ready( function() {
     $('#initNext').prop('disabled', false);
   });
 
+  // INIT - Radio button change (human or computer)
+  $('input[type=radio][name=opponent]').change(function() {
+    if (this.value == 'human') {
+      $('#playerNo').fadeOut(function() {
+        $('#playerNo').text("Player 2").fadeIn(200);
+      });
+    } else {
+      $('#playerNo').fadeOut(function() {
+        $('#playerNo').text("Computer").fadeIn(200);
+      });
+    }
+  });
+
   // INIT - Next button click
   $('#initNext').on('click', function() {
 
-    var $playerNo = $('#playerNo');
-    var $selectedSymbol = $('.symbols li.selected');
     // Set player's symbol in data
     game.setPlayerSymbol(currentPlayer, $('.symbols li.selected i').attr('class'));
 
@@ -101,10 +138,10 @@ $(document).ready( function() {
 
         $('.player1 .icon i').addClass(game.player1);
         currentPlayer++;
-        $playerNo.fadeOut(function() {
-          $playerNo.text("Player " + currentPlayer).fadeIn(200);
+        $('#playerNo').fadeOut(function() {
+          $('#playerNo').text("Player " + currentPlayer).fadeIn(200);
         });
-        $selectedSymbol.fadeOut(500);
+        $('.symbols li.selected').fadeOut(500);
         $('#initNext').prop('disabled', true);
         $('.init .opponent').fadeIn(1000, function() {
           $(this).show;
@@ -115,6 +152,7 @@ $(document).ready( function() {
       $('.player2 .icon i').addClass(game.player2);
 
       if ($('.opponent input[value="machine"]').is(':checked')) {
+        $('#opponentName').text('Computer');
         game.activateAI();
       }
 
@@ -149,28 +187,7 @@ $(document).ready( function() {
     var cellClass = game.setCell(row, col);
     $(this).html('<i class="' + cellClass +'">');
 
-    if (game.win || game.draw) {
-
-      clearInterval(turnInterval);
-
-      UIupdateGameEnd();
-
-      setTimeout(function(){
-        UIgameReset();
-        game.setFirstTurn();
-      }, 2000);
-
-    } else {
-
-      game.nextTurn();
-
-      // Play AI move if it's the AI's turn (which it always will be after a human turn, in AI mode)
-      if(game.playerTurn === 2 && game.AIActive){
-        AIMoves();
-      }
-
-      UIupdateCurrentPlayersTurn();
-    }
+    checkForWinDraw();
 
   });
 

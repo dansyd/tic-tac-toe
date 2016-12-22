@@ -96,11 +96,56 @@ var game = {
     return [rowNumber, colNumber];
   },
 
+
+  checkAIPossibleWin: function(row, col) {
+    var AICounter = 0;
+    var freeCell = [];
+    //check row first
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j <3; j++) {
+        if (this.board[i][j] === this.player2) {
+          AICounter++;
+        } else if ((this.board[i][j] === '')) {
+          freeCell.push([i, j]);
+        }
+      }
+      if (AICounter === 2 && freeCell.length === 1 && freeCell[0]!== this.player1) {
+        return [freeCell[0][0], freeCell[0][1]];
+      }
+      AICounter = 0;
+      freeCell = [];
+    }
+    //check for column
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j <3; j++) {
+        if (this.board[j][i] === this.player2) {
+          AICounter++;
+        } else if ((this.board[j][i] === '')) {
+          freeCell.push([j, i]);
+        }
+      }
+      if (AICounter === 2 && freeCell.length === 1 && freeCell[0]!== this.player1) {
+        return [freeCell[0][0], freeCell[0][1]];
+      }
+      AICounter = 0;
+      freeCell = [];
+    }
+    //check for diagonal
+    var j = 2;
+    for (var i = 0; i < 3; i++) {
+      if (this.board[i][j] === this.player2) {
+        AICounter++;
+      } else if ((this.board[i][j] === '')) {
+        freeCell.push([i, j]);
+      }
+      j--;
+    }
+    if (AICounter === 2 && freeCell.length === 1 && freeCell[0]!== this.player1) {
+      return [freeCell[0][0], freeCell[0][1]];
+    }
+  },
+
   calculateAIMove: function() {
-    // var rowNumber = 0;
-    // var colNumber = 0;
-    var corners = [[0, 0], [0, 2], [2, 0], [2, 2]];
-    var sides = [[1, 0], [2, 1], [1, 2], [0, 1]];
 
     if (this.turnCounter === 0) {
       // First move -> Attacking
@@ -124,20 +169,44 @@ var game = {
       }
     }
 
-    // If Attacking and 3rd turn, check if player1 took middle
-    if (this.AIAttacking && this.turnCounter === 2) {
-      // if not, take row +2 or col +2, whichever free
-      if (this.board[1][1] === '') {
-        if (this.board[0][2] === '') {
-          return this.setAICell(0, 2);
-        } else if (this.board[2][0] === '') {
-          return this.setAICell(2, 0);
+    // If Attacking and 3rd turn
+    if (this.AIAttacking) {
+      if (this.turnCounter === 2) {
+        // if middle free, take a free corner
+        for (var i = 0; i <= 2; i+=2 ) {
+          for (var j = 2; j >= 0; j-=2) {
+            if (this.board[i][j] === "") {
+              return this.setAICell(i,j);
+            }
+          }
         }
-      // if middle is taken, take the opposite diagonal (2,2)
-      } else {
-        return this.setAICell(2, 2);
+      }
+
+      if (this.turnCounter === 4) {
+        // check for possible win
+        var winningCell = this.checkAIPossibleWin(0, 0);
+        if (winningCell) {
+          return this.setAICell(winningCell[0], winningCell[1]);
+        }
+        // if not, take the other corner
+        for (var i = 0; i <= 2; i+=2 ) {
+          for (var j = 2; j >= 0; j-=2) {
+            if (this.board[i][j] === "") {
+              return this.setAICell(i,j);
+            }
+          }
+        }
+      }
+
+      if (this.turnCounter === 6) {
+        // check for possible win in row 0 and column 0
+        var winningCell = this.checkAIPossibleWin(0, 2);
+        if (winningCell) {
+          return this.setAICell(winningCell[0], winningCell[1]);
+        }
       }
     }
+
 
   },
 
