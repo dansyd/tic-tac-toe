@@ -8,7 +8,7 @@ $(document).ready( function() {
   ************/
   // UI - Current Players turn
   var UIpdateCurrentPlayersTurn = function() {
-    if (game.playerTurn === 1) {
+    if (game.data.playerTurn === 1) {
       $('.player2 .icon').removeClass('turn');
       $('.player1 .icon').toggleClass('turn');
     } else {
@@ -17,18 +17,28 @@ $(document).ready( function() {
     }
   }
 
+  var UIupdateBoard = function() {
+    for (var i = 0; i < game.data.board.length; i++) {
+      for (var j = 0; j < 3; j++) {
+        if (game.data.board[i][j] !=='') {
+          $('#row' + i + ' .col' + j).html('<i class="' + game.data.board[i][j] + '"></i>');
+        }
+      }
+    }
+  }
+
   // UI - Game end, highlight the row/column/diagonal and update the score
   var UIupdateGameEnd = function() {
-    if (game.win) {
-      switch (game.winner.method) {
+    if (game.data.win) {
+      switch (game.data.winner.method) {
         case "row":
-          $('#' + game.winner.cell + " div").addClass('winner');
+          $('#' + game.data.winner.cell + " div").addClass('winner');
           break;
         case "col":
-          $('.board .' + game.winner.cell).addClass('winner');
+          $('.board .' + game.data.winner.cell).addClass('winner');
           break;
         case "diagonal":
-          if (game.winner.cell === "TL") {
+          if (game.data.winner.cell === "TL") {
             $('#row0 .col0').addClass('winner');
             $('#row1 .col1').addClass('winner');
             $('#row2 .col2').addClass('winner');
@@ -41,7 +51,7 @@ $(document).ready( function() {
         default:
           break;
       }
-      if (game.playerTurn === 1) {
+      if (game.data.playerTurn === 1) {
         var player1Score = parseInt($('#player1Score').text());
         player1Score++;
         $('#player1Score').fadeOut(function() {
@@ -88,7 +98,7 @@ $(document).ready( function() {
     // set player's symbol in Info panel UI
     if( currentPlayer === 1) {
 
-        $('.player1 .icon i').addClass(game.player1);
+        $('.player1 .icon i').addClass(game.data.player1);
         currentPlayer++;
         $playerNo.fadeOut(function() {
           $playerNo.text("Player " + currentPlayer).fadeIn(200);
@@ -98,7 +108,7 @@ $(document).ready( function() {
 
     } else if (currentPlayer === 2) {
 
-      $('.player2 .icon i').addClass(game.player2);
+      $('.player2 .icon i').addClass(game.data.player2);
 
       // decide turn and activate flashing on player's symbol
       game.setFirstTurn();
@@ -123,9 +133,9 @@ $(document).ready( function() {
     var row = $(this).parent().attr('id');
     var col = $(this).attr('class');
     var cellClass = game.setCell(row, col);
-    $(this).html('<i class="' + cellClass +'">');
+    UIupdateBoard();
 
-    if (game.win || game.draw) {
+    if (game.data.win || game.data.draw) {
       //disable click on the board while loading new game
       $(".board").css("pointer-events", "none");
       clearInterval(turnInterval);
@@ -148,5 +158,7 @@ $(document).ready( function() {
 
   });
 
-
+  gameRef.on('value',function() {
+    UIupdateBoard();
+  });
 });
